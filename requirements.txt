@@ -1,3 +1,10 @@
 altair
 pandas
 streamlit
+pydeck~=0.8.0
+numpy~=1.26.0
+google-cloud-bigquery==3.11.4
+google-auth 
+google-auth-httplib2 
+google-api-python-client
+db-dtypes
