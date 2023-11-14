@@ -2,6 +2,9 @@ import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
+import pydeck as pdk
+from google.oauth2 import service_account
+from google.cloud import bigquery
 
 """
 # Welcome to Streamlit!
@@ -38,3 +41,27 @@ st.altair_chart(alt.Chart(df, height=700, width=700)
         color=alt.Color("idx", legend=None, scale=alt.Scale()),
         size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
     ))
+#========================sample end starting load bigquery data =========================
+credentials = service_account.Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"]
+    )
+# Create a BigQuery client
+client = bigquery.Client(credentials=credentials)
+# Load the Bay Area bike share data and cache it using st.cache_data
+#========================load data =========================
+@st.cache_data
+def load_data_from_bigquery():
+    # Define your BigQuery SQL query
+    query = f"""
+    SELECT *
+    FROM `4weekdataset.TeleMed-Mental`
+    """
+    # Execute the query and load the results into a DataFrame
+    data = client.query(query).to_dataframe()
+    return data
+# Load data
+data = load_data_from_bigquery()
+
+# Display the data table
+st.write("## TeleMed-Mental Data")
+st.dataframe(data)
