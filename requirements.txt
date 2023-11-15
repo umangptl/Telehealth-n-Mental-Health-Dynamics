@@ -1,7 +1,7 @@
 altair
 pandas
 streamlit
-plotly-express
+plotly~=5.2.2
 pydeck~=0.8.0
 numpy~=1.26.0
 google-cloud-bigquery==3.11.4
