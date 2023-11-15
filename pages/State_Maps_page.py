@@ -50,10 +50,6 @@ with st.spinner("Loading data..."):
     except Exception as e:
         st.error(f"Error loading data: {e}")
 
-# Display content
-page = st.sidebar.selectbox("Select a page", ["Home", "Choropleth Map"])
-
-
 st.title("Choropleth Map")
 st.write("Select an indicator to visualize on the map:")
 
