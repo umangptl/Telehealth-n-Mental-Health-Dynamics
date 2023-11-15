@@ -6,6 +6,11 @@ import pydeck as pdk
 from google.oauth2 import service_account
 from google.cloud import bigquery
 
+from pages.State_Maps import display_State_Maps_page
+from pages.Charts import display_Charts_page
+from pages.Other_Page import display_other_page
+
+
 """
 # Welcome to Streamlit!
 
