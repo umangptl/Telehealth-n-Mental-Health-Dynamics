@@ -67,7 +67,9 @@ st.write("## TeleMed-Mental Data")
 st.dataframe(data)
 
 # Sidebar navigation
-page = st.sidebar.selectbox("Select a page", ["State Maps", "Charts", "Other Page"])
+# Sidebar navigation
+page_names = ["State Maps", "Charts", "Other Page"]
+page = st.sidebar.selectbox("Select a page", page_names)
 
 # Display content based on the selected page
 if page == "State Maps":
@@ -78,3 +80,6 @@ elif page == "Charts":
 
 elif page == "Other Page":
     display_other_page()
+
+else:
+    st.write(f"Page '{page}' not found. Please select a valid page.")
