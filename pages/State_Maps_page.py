@@ -12,50 +12,65 @@ def load_data_from_bigquery():
 
     client = bigquery.Client(credentials=credentials)
 
-    # Define your BigQuery SQL query to fetch only necessary columns
-    query = f"""
-    SELECT Subgroup, Indicator, Value
-    FROM `4weekdataset.TeleMed-Mental`
-    WHERE Group = 'By State'
-    """
+#     # Define your BigQuery SQL query to fetch only necessary columns
+#     query = f"""
+#     SELECT Subgroup, Indicator, Value
+#     FROM `4weekdataset.TeleMed-Mental`
+#     WHERE Group = 'By State'
+#     """
     
+#     # Execute the query and load the results into a DataFrame
+#     data = client.query(query).to_dataframe()
+#     return data
+# @st.cache_data
+# def load_data_from_bigquery():
+    # Define your BigQuery SQL query
+    query = f"""
+    SELECT *
+    FROM `4weekdataset.TeleMed-Mental`
+    """
     # Execute the query and load the results into a DataFrame
     data = client.query(query).to_dataframe()
     return data
-
-# Function to create choropleth map
-def create_choropleth_map(data, selected_indicator):
-    # Filter data for the selected indicator
-    indicator_data = data[data['Indicator'] == selected_indicator]
-
-    # Create choropleth map
-    fig = px.choropleth(indicator_data,
-                        locations="Subgroup",  # Assuming "Subgroup" corresponds to the state abbreviation
-                        color="Value",
-                        hover_name="State",
-                        locationmode='USA-states',
-                        title=f'{selected_indicator}')
-
-    # Update layout if needed
-    fig.update_layout(
-        title_text=f'{selected_indicator}', 
-        geo_scope='usa')
-
-    return fig
-
 # Load data
 data = load_data_from_bigquery()
 
-st.title("Choropleth Map")
-st.write("Select an indicator to visualize on the map:")
+# Display the data table
+st.write("## TeleMed-Mental Data")
+st.dataframe(data)
+# # Function to create choropleth map
+# def create_choropleth_map(data, selected_indicator):
+#     # Filter data for the selected indicator
+#     indicator_data = data[data['Indicator'] == selected_indicator]
 
-# Get unique indicators
-unique_indicators = data['Indicator'].unique()
+#     # Create choropleth map
+#     fig = px.choropleth(indicator_data,
+#                         locations="Subgroup",  # Assuming "Subgroup" corresponds to the state abbreviation
+#                         color="Value",
+#                         hover_name="State",
+#                         locationmode='USA-states',
+#                         title=f'{selected_indicator}')
 
-# Dropdown for selecting an indicator
-selected_indicator = st.selectbox("Select Indicator", unique_indicators)
+#     # Update layout if needed
+#     fig.update_layout(
+#         title_text=f'{selected_indicator}', 
+#         geo_scope='usa')
 
-# Create choropleth map
-with st.spinner("Generating choropleth map..."):
-    fig = create_choropleth_map(data, selected_indicator)
-    st.plotly_chart(fig)
+#     return fig
+
+# # Load data
+# data = load_data_from_bigquery()
+
+# st.title("Choropleth Map")
+# st.write("Select an indicator to visualize on the map:")
+
+# # Get unique indicators
+# unique_indicators = data['Indicator'].unique()
+
+# # Dropdown for selecting an indicator
+# selected_indicator = st.selectbox("Select Indicator", unique_indicators)
+
+# # Create choropleth map
+# with st.spinner("Generating choropleth map..."):
+#     fig = create_choropleth_map(data, selected_indicator)
+#     st.plotly_chart(fig)
