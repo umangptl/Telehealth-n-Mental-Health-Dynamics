@@ -44,11 +44,7 @@ def create_choropleth_map(data, selected_indicator):
     return fig
 
 # Load data
-with st.spinner("Loading data..."):
-    try:
-        data = load_data_from_bigquery()
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
+data = load_data_from_bigquery()
 
 st.title("Choropleth Map")
 st.write("Select an indicator to visualize on the map:")
