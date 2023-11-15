@@ -65,3 +65,16 @@ data = load_data_from_bigquery()
 # Display the data table
 st.write("## TeleMed-Mental Data")
 st.dataframe(data)
+
+# Sidebar navigation
+page = st.sidebar.selectbox("Select a page", ["State Maps", "Charts", "Other Page"])
+
+# Display content based on the selected page
+if page == "State Maps":
+    display_State_Maps_page()
+
+elif page == "Charts":
+    display_Charts_page()
+
+elif page == "Other Page":
+    display_other_page()
