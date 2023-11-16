@@ -1,17 +1,11 @@
-import altair as alt
-import numpy as np
-import pandas as pd
 import streamlit as st
-import pydeck as pdk
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 from google.oauth2 import service_account
 from google.cloud import bigquery
 
-
-"""
-# Welcome to Streamlit!
-"""
-st.title("Choropleth Map")
-# Load data in the main app file
+# Load data from BigQuery
 @st.cache_data
 def load_data_from_bigquery():
     credentials = service_account.Credentials.from_service_account_info(
@@ -30,9 +24,5 @@ def load_data_from_bigquery():
     data = client.query(query).to_dataframe()
     return data
 
-# Load data
-data = load_data_from_bigquery()
 
-# Display the data table
-st.write("## TeleMed-Mental Data")
-st.dataframe(data)
+    
