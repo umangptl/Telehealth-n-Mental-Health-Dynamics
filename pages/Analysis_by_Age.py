@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import altair as alt
 import plotly.graph_objects as go
 from google.oauth2 import service_account
 from google.cloud import bigquery
@@ -25,4 +26,8 @@ def load_data_from_bigquery():
     return data
 
 
-    
+# Main Streamlit app
+st.title("Age Analysis")
+
+# Load data from BigQuery
+data = load_data_from_bigquery()

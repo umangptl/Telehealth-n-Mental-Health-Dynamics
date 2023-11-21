@@ -36,18 +36,18 @@ def create_choropleth_map(data, selected_indicator):
 
     # Create choropleth map using Plotly graph objects
     fig = go.Figure(go.Choropleth(
-        locations=mean_data['Code'],  
-        z=mean_data['Value'], 
-        locationmode='USA-states',
-        colorscale='Viridis',
-        colorbar_title=f'Value Index',
+                            locations=mean_data['Code'],  
+                            z=mean_data['Value'], 
+                            locationmode='USA-states',
+                            colorscale='Viridis',
+                            colorbar_title=f'Value Index',
     ))
 
     fig.update_layout(
-        title_text=f'{selected_indicator}',
-        geo_scope='usa',
-        width=800,
-        height=600 
+                title_text=f'{selected_indicator}',
+                geo_scope='usa',
+                width=800,
+                height=600 
     )
 
     return fig
@@ -66,15 +66,15 @@ def create_chart(data, selected_indicator):
 
     # Create horizontal bar chart using Plotly Express
     fig = px.bar(
-        top_bottom_data, 
-        x='Value', 
-        y='State', 
-        orientation='h', 
-        color='Value',
-        labels={'Value': f'Mean Value', 'State': 'State'},
-        title=f'{selected_indicator}',
-        color_continuous_scale='Viridis',
-        height=600,  # Set the height of the chart
+            top_bottom_data, 
+            x='Value', 
+            y='State', 
+            orientation='h', 
+            color='Value',
+            labels={'Value': f'Mean Value', 'State': 'State'},
+            title=f'{selected_indicator}',
+            color_continuous_scale='Viridis',
+            height=600,  # Set the height of the chart
     )
 
     return fig
