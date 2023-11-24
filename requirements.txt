@@ -4,7 +4,7 @@ streamlit
 geopandas
 geoplot
 matplotlib
-plotly~=5.2.2
+plotly~=5.18.0
 pydeck~=0.8.0
 numpy~=1.26.0
 google-cloud-bigquery==3.11.4
