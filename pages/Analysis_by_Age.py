@@ -14,7 +14,7 @@ def load_data_from_bigquery():
 
     # Define your BigQuery SQL query to fetch only necessary columns
     query = f"""
-    SELECT *
+    SELECT Indicator, `Group`, Subgroup, Time_Period_Label, Value
     FROM `4weekdataset.dataset`
     """
     

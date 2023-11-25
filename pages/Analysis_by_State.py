@@ -111,6 +111,7 @@ st.title("State Analysis")
 # Load data from BigQuery
 data = load_data_from_bigquery()
 
+st.title("Choropleth Map")
 # Get unique indicators
 unique_indicators = data['Indicator'].unique()
 
@@ -121,12 +122,12 @@ selected_indicator = st.selectbox("Select Indicator", unique_indicators)
 fig = create_choropleth_map(data, selected_indicator)
 st.plotly_chart(fig)
 
-st.write(f"Compare Visualization for Top 10 vs Bottom 10")
+st.title(f"**Compare Top 10 vs Bottom 10 States**")
 fig_top_bottom = create_chart(data, selected_indicator)
 st.plotly_chart(fig_top_bottom)
 
 # Streamlit app
-st.write(f"Animation over time")
+st.title(f"**States Animation over time**")
 fig_animation = create_animation(data,selected_indicator)
 # Display the choropleth map
 st.plotly_chart(fig_animation)
