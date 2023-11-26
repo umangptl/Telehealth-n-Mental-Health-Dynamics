@@ -27,7 +27,8 @@ def load_data_from_bigquery():
 
 
 # Function to create choropleth map
-def create_choropleth_map(data, selected_indicator):
+def create_choropleth_map(data, unique_indicators):
+    st.title("Choropleth Map")
 
     filtered_data = data[(data['Group'] == 'By State') & (data['Indicator'] == selected_indicator)]
 
@@ -50,9 +51,11 @@ def create_choropleth_map(data, selected_indicator):
                 height=600 
     )
 
-    return fig
+    st.plotly_chart(fig)
 
-def create_chart(data, selected_indicator):
+def create_chart(data, unique_indicators):
+    st.title(f"**Compare Top 10 vs Bottom 10 States**")
+
     filtered_data = data[(data['Group'] == 'By State') & (data['Indicator'] == selected_indicator)]
 
     # Calculate the mean value for each state and indicator combination
@@ -73,13 +76,15 @@ def create_chart(data, selected_indicator):
             color='Value',
             labels={'Value': f'Mean Value', 'State': 'State'},
             title=f'{selected_indicator}',
-            color_continuous_scale='Viridis',
+            color_continuous_scale='GnBu',
             height=600,  # Set the height of the chart
     )
 
-    return fig
+    st.plotly_chart(fig)
 
-def create_animation(data, selected_indicator):
+def create_animation(data, unique_indicators):
+    st.title(f"**States Animation over time**")
+
     state_group_df = data[data['Indicator'] == 'Needed Counseling or Therapy But Did Not Get It, Last 4 Weeks'].copy()
     Neededf = state_group_df[state_group_df['Group'] == 'By State'].copy()
     Neededf['Time_Period_End_Date'] = Neededf['Time_Period_End_Date'].astype(str)
@@ -92,7 +97,7 @@ def create_animation(data, selected_indicator):
                     locationmode='USA-states',
                     title='Needed Counseling or Therapy But Did Not Get It, Last 4 Weeks',
                     labels={'Value': 'Indicator Value', 'Indicator': 'Mental Health Indicator'},
-                    color_continuous_scale="Viridis",
+                    color_continuous_scale="Rdbu",
                     range_color=(state_group_df['Value'].min(), state_group_df['Value'].max()))
 
 
@@ -103,7 +108,7 @@ def create_animation(data, selected_indicator):
         height=600 
     )
 
-    return fig
+    st.plotly_chart(fig)
 
 # Main Streamlit app
 st.title("State Analysis")
@@ -111,23 +116,13 @@ st.title("State Analysis")
 # Load data from BigQuery
 data = load_data_from_bigquery()
 
-st.title("Choropleth Map")
 # Get unique indicators
 unique_indicators = data['Indicator'].unique()
-
 # Dropdown for selecting an indicator
 selected_indicator = st.selectbox("Select Indicator", unique_indicators)
 
-# Create choropleth map based on the selected indicator
-fig = create_choropleth_map(data, selected_indicator)
-st.plotly_chart(fig)
+create_choropleth_map(data, unique_indicators)
 
-st.title(f"**Compare Top 10 vs Bottom 10 States**")
-fig_top_bottom = create_chart(data, selected_indicator)
-st.plotly_chart(fig_top_bottom)
+create_chart(data, unique_indicators)
 
-# Streamlit app
-st.title(f"**States Animation over time**")
-fig_animation = create_animation(data,selected_indicator)
-# Display the choropleth map
-st.plotly_chart(fig_animation)
+create_animation(data, unique_indicators)

@@ -15,7 +15,15 @@ from google.cloud import bigquery
 
 ### Data sets:
 - [Mental Health Care in the Last 4 Weeks](https://catalog.data.gov/dataset/mental-health-care-in-the-last-4-weeks)
+    - Took Prescription Medication for Mental Health
+    - Needed Counseling or Therapy But Did Not Get It
+    - Took Prescription Medication for Mental Health And/Or Received Counseling or Therapy
+    - Received Counseling or Therapy
+
 - [Telemedicine Use in the Last 4 Weeks](https://catalog.data.gov/dataset/telemedicine-use-in-the-last-4-weeks-5229c)
+    - Adults Who Had an Appointment with a Health Professional Over Video or Phone 
+    - Households With Children Where Any Child Had an Appointment with a Health Professional Over Video or Phone 
+
 
 #### Collab EDA - [Collab Link](https://colab.research.google.com/drive/17297HG3a7O9vq_F0o9qIwRAGgdigMj_a?usp=sharing)
 

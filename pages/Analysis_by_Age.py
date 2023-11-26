@@ -93,7 +93,7 @@ def plot_value_by_indicator(data):
 
     # Draw heat matrix using Plotly Express
     fig = px.imshow(df.values, labels=dict(x="Time Period", y="Subgroup", color="Value"),
-                    x=df.columns, y=df.index, color_continuous_scale='Viridis')
+                    x=df.columns, y=df.index, color_continuous_scale='Hot')
 
     # Display the figure
     st.plotly_chart(fig)

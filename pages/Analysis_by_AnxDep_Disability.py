@@ -27,9 +27,8 @@ def plot_ridge_data(data):
 
     st.title("Ridge Plot")
     fig_overview = px.area(df, x='Time_Period_Start_Date', y='Value', color='Subgroup', line_group='Indicator',
-                       labels={'Value': 'Density'},
-                       title=f'Overview Indicator plot')
-    fig_overview.update_layout(legend=dict(orientation='h', y=1.35, x=0.5))
+                       labels={'Value': 'Density'})
+    fig_overview.update_layout(legend=dict(orientation='h', y=1.35, x=0))
     st.plotly_chart(fig_overview)
 
 def plot_stream_graph(data):
@@ -54,7 +53,7 @@ def plot_stream_graph(data):
     # Generate Stream Graph for Detailed Comparison
     fig_stream = px.area(df_selected, x='Time_Period_Start_Date', y='Value', color='Subgroup',
                         line_group='Indicator', color_discrete_sequence=custom_colors)
-    fig_stream.update_layout(legend=dict(orientation='h', y=1.35, x=0.45))
+    fig_stream.update_layout(legend=dict(orientation='h', y=1.5, x=0))
     st.plotly_chart(fig_stream)
 
 def plot_grouped_bar_chart(data):
@@ -81,17 +80,18 @@ def plot_grouped_bar_chart(data):
     # Generate Grouped Bar Chart for Subgroup Comparison with adjusted labels
     fig_bar_chart = px.bar(df_selected, x='Subgroup', y='Value', color='Indicator',
                            labels={'Value': 'Percentage'},
-                           barmode='group')
+                           barmode='group',
+                           template='presentation')
 
     # Customize layout to separate the legend and adjust x-axis labels 
-    fig_bar_chart.update_layout(legend=dict(orientation='h', y=1.5, x=0.5),
+    fig_bar_chart.update_layout(legend=dict(orientation='h', y=1.5, x=0),
                                 xaxis=dict(tickangle=-45, tickmode='array', tickvals=list(range(len(df_selected['Subgroup']))),
                                            ticktext=df_selected['Subgroup']))
 
     st.plotly_chart(fig_bar_chart)
 
 # Main Streamlit app
-st.write("### Analysis for Presence of Symptoms of Anxiety/Depression and Disability status")
+st.write("### Anxiety/Depression and Disability status Analysis")
 
 # Load data from BigQuery
 data = load_data_from_bigquery()
