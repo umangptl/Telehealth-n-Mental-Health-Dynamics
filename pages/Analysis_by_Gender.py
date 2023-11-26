@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import plotly.express as px
-import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from google.oauth2 import service_account
 from google.cloud import bigquery
@@ -20,7 +19,7 @@ def load_data_from_bigquery():
 
     # Define your BigQuery SQL query to fetch only necessary columns
     query = f"""
-    SELECT Indicator, `Group`, Subgroup, Time_Period_Start_Date, Value
+    SELECT Indicator, `Group`, Subgroup, Time_Period_Start_Date, Value, Phase
     FROM `4weekdataset.dataset`
     """
     
@@ -34,28 +33,30 @@ def plot_gender_data(data):
 
     st.title("Parallel Sets")
     #Create dimensions
-    indicator_dim = go.parcats.Dimension(values=gender_data['Indicator'], label="Indicator")
+    indicator_dim = go.parcats.Dimension(values=gender_data['Indicator'].apply(lambda x: x[:28]), label="Indicator")
     subgroup_dim = go.parcats.Dimension(values=gender_data['Subgroup'], label="Subgroup")
-    value_dim = go.parcats.Dimension(values=gender_data['Value'], label="Value of Weeks")
+    value_dim = go.parcats.Dimension(values=gender_data['Time_Period_Start_Date'], label="Time Period")
 
     # Convert 'Subgroup' to colors
-    color_mapping = {'Male': 'blue', 'Female': 'pink'}
+    color_mapping = {'Male': '#0047ff', 'Female': '#F603A3'}
     color = gender_data['Subgroup'].map(color_mapping)
 
     fig = go.Figure(data=[go.Parcats(
-        dimensions=[indicator_dim, subgroup_dim, value_dim],
+        dimensions=[subgroup_dim, indicator_dim, value_dim],
         line={'color': color},
         hoveron='color', hoverinfo='count+probability',
         labelfont={'size': 18, 'family': 'Times'},
         tickfont={'size': 16, 'family': 'Times'},
-        arrangement='freeform'
+        arrangement='freeform',
     )])
+    fig.update_layout(title_text='Male and Female overview over Indicators and Time Period')
+
 
     # Display the Parcats plot
     st.plotly_chart(fig)
 
 def plot_gender_compare_data(data):
-    # # Filter data for Male and Female subgroups
+    # Filter data for Male and Female subgroups
     gender_data = data[data['Subgroup'].isin(['Male', 'Female'])]
 
     st.title("Line Graph")
@@ -67,22 +68,17 @@ def plot_gender_compare_data(data):
     # Filter data based on selected indicators
     filtered_data = gender_data[gender_data['Indicator'].isin(selected_indicators)]
 
-    # Create a color palette for the selected indicators
-    color_palette = sns.color_palette('husl', n_colors=len(selected_indicators))
+    # Create Line Chart using Plotly Express with a specific template
+    fig = px.line(filtered_data, x='Time_Period_Start_Date', y='Value', color='Indicator', line_shape='linear',
+                  markers=True, line_dash='Subgroup',  # Different line styles for Male and Female
+                  labels={'Value': 'Value'},
+                  template='plotly_dark')  # Use a built-in dark template, you can choose other templates as well
 
-    # Plotting
-    fig, ax = plt.subplots(figsize=(20, 10))
-    sns.lineplot(x='Time_Period_Start_Date', y='Value', hue='Indicator', style='Subgroup',
-                 data=filtered_data, palette=color_palette, markers=True, dashes=False)
-
-    ax.set_title('Values Over Time for Male and Female Subgroups by Indicator')
-    ax.set_xlabel('Time_Period_Start_Date')
-    ax.set_ylabel('Value')
-    ax.legend(bbox_to_anchor=(0.5, 1.1), loc='lower center', ncol=len(selected_indicators)//2)
-    ax.grid(True)
+    # Customize legend position
+    fig.update_layout(legend=dict(orientation='h', y=2, x=0), xaxis_title='Time_Period_Start_Date', yaxis_title='Value')
 
     # Display the plot in Streamlit
-    st.pyplot(fig)
+    st.plotly_chart(fig)
     
 
 def plot_value_by_indicator_and_gender(data):
