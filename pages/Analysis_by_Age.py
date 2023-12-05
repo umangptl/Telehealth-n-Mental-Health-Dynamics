@@ -75,6 +75,7 @@ def plot_value_by_time_period(data):
     )
     st.write(fig)
 
+
 def plot_value_by_indicator(data):
     # Filter data for age groups
     df = data[data['Group'].isin(['By Age'])]
