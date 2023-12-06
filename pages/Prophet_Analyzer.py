@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 from prophet import Prophet
 from google.oauth2 import service_account
 from google.cloud import bigquery
@@ -24,17 +25,18 @@ def load_data_from_bigquery():
     data = client.query(query).to_dataframe()
     return data
 
-
 def generate_prophet_forecast(data):
     # Filter data for age groups
     df = data[data['Subgroup'].isin(['United States'])]
     st.title("Prophet predictions")
+    
     # User selects indicator
     selected_indicator = st.radio("Select Indicator", df['Indicator'].unique())
 
     # Filter data based on user-selected indicator
     selected_data = df[df['Indicator'] == selected_indicator]
-    df = selected_data.pivot(index='Time_Period_Start_Date',columns='Subgroup', values='Value')
+    df = selected_data.pivot(index='Time_Period_Start_Date', columns='Subgroup', values='Value')
+    
     st.write(df)
 
     df_Prophet = df.reset_index().rename(columns={'Time_Period_Start_Date': 'ds', 'United States': 'y'})  # Rename columns as required by Prophet
@@ -50,8 +52,45 @@ def generate_prophet_forecast(data):
     # Make predictions
     forecast = model.predict(future)
 
-    # Plot the forecast
-    fig = model.plot(forecast)
+    # Plot the forecast with uncertainty intervals
+    fig = go.Figure()
+
+    # Plot the actual values in red
+    fig.add_trace(go.Scatter(x=df_Prophet['ds'], y=df_Prophet['y'], mode='lines', name='Actual', line=dict(color='red')))
+
+    # Plot the forecasted values in blue
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast', line=dict(color='blue')))
+
+    # Add uncertainty intervals
+    fig.add_trace(go.Scatter(
+        x=forecast['ds'],
+        y=forecast['yhat_lower'],
+        fill=None,
+        mode='lines',
+        line=dict(color='blue'),
+        showlegend=False
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=forecast['ds'],
+        y=forecast['yhat_upper'],
+        fill='tonexty',
+        fillcolor='rgba(0,100,80,0.2)',
+        mode='lines',
+        line=dict(color='blue'),
+        name='Uncertainty Interval'
+    ))
+
+    # Customize the layout
+    fig.update_layout(
+        autosize=False,
+        width=800,
+        height=400,
+        title_text='Prophet Forecast with Uncertainty Intervals',
+        xaxis_title='Date',
+        yaxis_title='Forecasted Value'
+    )
+
     st.plotly_chart(fig)
 
 
