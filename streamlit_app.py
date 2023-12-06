@@ -143,9 +143,10 @@ st.write("""Based on the new understanding that the indicator M represents the c
 # References
 st.header("References")
 st.write("- [Data Visualisation Catalogue](https://datavizcatalogue.com/)")
+st.write("- [Prophet documentation](https://facebook.github.io/prophet/docs/outliers.html")
 st.write("- Centers for Disease Control and Prevention. (2023, March 15). CDC Museum Covid-19 Timeline. Centers for Disease Control and Prevention.")
 st.write("[https://www.cdc.gov/museum/timeline/covid19.html]( https://www.cdc.gov/museum/timeline/covid19.html)")
-st.write("- Bogage, J. (2022, January 7). Americans adopted millions of dogs during the coronavirus pandemic. now ... Americans adopted millions of dogs during the pandemic. Now what do we do with them.")
+st.write("- Bogage, J. (2022, January 7). Americans adopted millions of dogs during the coronavirus pandemic. now. Americans adopted millions of dogs during the pandemic. Now what do we do with them.")
 st.write("[https://www.washingtonpost.com/business/2022/01/07/covid-dogs-return-to-work/](https://www.washingtonpost.com/business/2022/01/07/covid-dogs-return-to-work/ )")
 st.write("Collab files shared in class:")
 st.write("- [Collab Link 1](https://colab.research.google.com/drive/1y4zQl_SxA1DEbjI5XjBuxmXQrx5xI1vE?usp=sharing)")
