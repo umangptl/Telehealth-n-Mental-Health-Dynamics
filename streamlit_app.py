@@ -132,18 +132,19 @@ st.write("""Based on the new understanding that the indicator M represents the c
          
 •    Confirming the trend that, while individual indicators may not show large differences, the overall trend for taking prescription Medication for Mental Health and/or receiving counseling or Therapy is relatively consistent across education levels.
          
-•    The reasons for the similar trends and whether educational background influences the decision to combine medication and therapy needs further data and exploration.
+•    The reasons for the similar trends and whether educational background influences the decision to combine medication and therapy need further data and exploration.
 
 3. By Ethnicity:
          
 •    The data trend confirms that whites have the highest values for Took Prescription Medication for Mental Health and/or Received Counseling or Therapy, while Asians have the lowest values.
          
-•    Reason could be potential cultural or systemic factors contributing to the observed differences, Futher strategies could be explored to address any disparities in mental health care utilization.""")
+•    Reason could be potential cultural or systemic factors contributing to the observed differences, Further strategies could be explored to address any disparities in mental health care utilization.""")
 
 # References
 st.header("References")
 st.write("- [Data Visualisation Catalogue](https://datavizcatalogue.com/)")
-st.write("- [Prophet documentation](https://facebook.github.io/prophet/docs/outliers.html")
+st.write("- [Prophet documentation](https://facebook.github.io/prophet/docs/outliers.html)")
+st.write("- [ARIMA documentation](https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html)")
 st.write("- Centers for Disease Control and Prevention. (2023, March 15). CDC Museum Covid-19 Timeline. Centers for Disease Control and Prevention.")
 st.write("[https://www.cdc.gov/museum/timeline/covid19.html]( https://www.cdc.gov/museum/timeline/covid19.html)")
 st.write("- Bogage, J. (2022, January 7). Americans adopted millions of dogs during the coronavirus pandemic. now. Americans adopted millions of dogs during the pandemic. Now what do we do with them.")
